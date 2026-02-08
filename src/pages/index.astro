@@ -1,17 +1,44 @@
 ---
-
+import Layout from "../layouts/layout.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Liam Pallett">
+	<div class="hero">
+		<h1 class="intro">Hi! I'm Liam Pallett.</h1>
+		<div class="flex-break"></div>
+		<h1>19 y/o Software Engineering student at UoSheffield</h1>
+		<div class="flex-break"></div>
+		<h1>liam(dot)pallett06(at)gmail.com</h1>
+		<a href="/public/content/Liam Pallett CV.pdf" target="_blank">View CV</a>
+	</div>
+</Layout>
+
+<style>
+	.hero {
+		display: flex;
+		flex-wrap: wrap;
+		flex-grow: 1;
+		justify-content: center;
+		align-items: center;
+		min-height: auto;
+		gap: 1em;
+
+		color: antiquewhite;
+		font: 1.5em JetbrainsMono;
+	}
+
+	h1 {
+		font-size: 1.5em;
+		font-weight: 500;
+		margin: 0;
+	}
+
+	.flex-break {
+		flex-basis: 100%;
+	}
+
+	.intro {
+		font-size: 2.5em;
+	}
+
+</style>

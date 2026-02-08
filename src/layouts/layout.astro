@@ -1,0 +1,66 @@
+---
+const { title } = Astro.props;
+
+import Header from "../components/header.astro";
+import Footer from "../components/footer.astro";
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body>
+        <Header></Header>
+		<div class="content">
+            <slot />
+        </div>
+        <Footer></Footer>
+	</body>
+</html>
+
+<style>
+    body {
+        overflow: hidden;
+        color: antiquewhite;
+        background-color: rgb(33, 33, 102);
+        
+        min-width: 100vw;
+        min-height: 100vh;
+
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+    }
+
+    .content {
+        flex-grow: 1;
+        align-content: center;
+    }
+</style>
+
+
+<style is:global>
+    @font-face {
+        font-family: JetbrainsMono;
+        src: url(/public/fonts/JetBrainsMono-VariableFont_wght.ttf);
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
+
+    a {
+        font: 1.5em JetbrainsMono;
+        color: antiquewhite;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: rgb(195, 183, 168);
+    }
+</style>
