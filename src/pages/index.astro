@@ -5,40 +5,55 @@ import Layout from "../layouts/layout.astro";
 <Layout title="Liam Pallett">
 	<div class="hero">
 		<h1 class="intro">Hi! I'm Liam Pallett.</h1>
-		<div class="flex-break"></div>
 		<h1>19 y/o Software Engineering student at UoSheffield</h1>
-		<div class="flex-break"></div>
-		<h1>liam(dot)pallett06(at)gmail.com</h1>
-		<a href="/public/content/Liam Pallett CV.pdf" target="_blank">View CV</a>
+		<div class="cta">
+			<h1>liam(dot)pallett06(at)gmail.com</h1>
+			<a href="/public/content/Liam Pallett CV.pdf" target="_blank">View CV</a>
+		</div>
+	</div>
+
+	<div class="hero">
+		<h1 class="intro">Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus tempore ex doloremque temporibus fugiat voluptates architecto numquam? Aliquam est similique nostrum repudiandae saepe porro eveniet quo. Esse necessitatibus sequi magnam.</h1>
+	</div>
+
+	<div class="hero">
+		<h1 class="intro">Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus tempore ex doloremque temporibus fugiat voluptates architecto numquam? Aliquam est similique nostrum repudiandae saepe porro eveniet quo. Esse necessitatibus sequi magnam.</h1>
 	</div>
 </Layout>
 
 <style>
 	.hero {
 		display: flex;
-		flex-wrap: wrap;
-		flex-grow: 1;
+		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		min-height: auto;
+		min-height: 90vh;
 		gap: 1em;
-
+		
 		color: antiquewhite;
 		font: 1.5em JetbrainsMono;
+	}
+
+	a {
+		margin-top: -.4em;
 	}
 
 	h1 {
 		font-size: 1.5em;
 		font-weight: 500;
 		margin: 0;
-	}
-
-	.flex-break {
-		flex-basis: 100%;
+		margin-top: -.4em;
 	}
 
 	.intro {
+
 		font-size: 2.5em;
+	}
+
+	.cta {
+		display: flex;
+		gap: 1em;
+		text-decoration: underline;
 	}
 
 </style>
