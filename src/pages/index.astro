@@ -1,7 +1,39 @@
 ---
 import Layout from "../layouts/layout.astro";
+import VH from "../components/vh.astro";
 ---
 
 <Layout title="Liam Pallett">
 
+	<VH>
+		<div class="hero">
+			<div class="hero-l">
+				<h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde illo quisquam ipsum exercitationem vero delectus et rerum iste aspernatur similique odit quidem ad ut culpa veniam facere laborum, quos ex!</h1>
+			</div>
+			<div class="hero-r">right</div>
+		</div>
+	</VH>
 </Layout>
+
+<style>
+	.hero {
+		display: flex;
+		flex-grow: 1;
+		flex-shrink: 0;
+		width: 100%;
+	}
+
+	.hero-l {
+		display: flex;
+		align-items: center;
+		min-width: 50%;
+		min-height: 100%;
+		background-color: var(--aqua-mist);
+	}
+
+	.hero-r {
+		min-width: 50%;
+		min-height: 100%;
+		background-color: var(--toxic-orange);
+	}
+</style>

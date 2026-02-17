@@ -1,0 +1,19 @@
+---
+
+---
+
+<div class="vh">
+    <slot></slot>
+</div>
+
+<style> 
+    .vh {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .vh:first-child {
+        min-height: calc(100vh - var(--header-height));
+    }
+</style>
