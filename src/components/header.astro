@@ -6,22 +6,48 @@
     <a href="/">Home</a>
     <a href="/projects">Projects</a>
     <a href="/blog">Blog</a>
+
+    <div class="socials">
+        <a href="https://bsky.app/profile/liam-pallett.bsky.social" target="_blank"><i class="fa-brands fa-bluesky"></i></a>
+        <a href="https://github.com/liampallett" target="_blank"><i class="fa-brands fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/liam-pallett/" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="https://www.reddit.com/user/liam_pallett/" target="_blank"><i class="fa-brands fa-reddit-alien"></i></a>
+    </div>
 </header>
 
 <style>
     header {
         display: flex;
-        justify-content: center;
         gap: 1.5em;
-        padding-top: 1em;
+        margin: 2em 2em;
     }
 
-    @media screen and (max-width: 500px) {
-        footer {
-            gap: 1em;
+    .socials {
+        margin-left: auto;
+        display: flex;
+        gap: 1em;
+    }
+
+    @media screen and (max-width: 600px) {
+        header {
+            font-size: 1.5em;
         }
-        a {
-            font-size: 1em;
+
+        .socials {
+            display: none;
         }
+    }
+
+    a {
+        font-size: 2.5em;
+        color: var(--black-kite);
+        
+
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: var(--garnet);
+        text-decoration: underline;
     }
 </style>

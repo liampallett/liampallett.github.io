@@ -2,7 +2,6 @@
 const { title } = Astro.props;
 
 import Header from "../components/header.astro";
-import Footer from "../components/footer.astro";
 ---
 
 <html lang="en">
@@ -10,6 +9,10 @@ import Footer from "../components/footer.astro";
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
@@ -20,46 +23,29 @@ import Footer from "../components/footer.astro";
 		<div class="content">
             <slot />
         </div>
-        <Footer></Footer>
 	</body>
 </html>
 
 <style>
     body {
-        color: antiquewhite;
-        background-color: rgb(33, 33, 102);
-        
-        min-width: 100vw;
-        min-height: 100vh;
-
-        display: flex;
-        flex-direction: column;
+        background-color: var(--amazon-mist);
         margin: 0;
     }
-
-    .content {
-        flex-grow: 1;
-        align-content: center;
-    }
 </style>
-
 
 <style is:global>
-    @font-face {
-        font-family: JetbrainsMono;
-        src: url(/fonts/JetBrainsMono-VariableFont_wght.ttf);
-        font-weight: normal;
-        font-style: normal;
-        font-display: swap;
+    * {
+        font-family: "Bitter", serif;
     }
 
-    a {
-        font: 1.5em JetbrainsMono;
-        color: antiquewhite;
-        text-decoration: none;
-    }
-
-    a:hover {
-        color: rgb(195, 183, 168);
+    :root {
+        --morning-snow: #f5f4ed;
+        --amazon-mist: #edecdc;
+        --aqua-mist: #a0c9cb;
+        --toxic-orange: #ff6037;
+        --black-kite: #351e1c;
+        --garnet: #733635;
     }
 </style>
+
+<script src="https://kit.fontawesome.com/a92da80a5c.js" crossorigin="anonymous"></script>
