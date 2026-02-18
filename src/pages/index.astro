@@ -4,18 +4,35 @@ import VH from "../components/vh.astro";
 ---
 
 <Layout title="Liam Pallett">
-
 	<VH>
 		<div class="hero">
 			<div class="hero-l">
-				<h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde illo quisquam ipsum exercitationem vero delectus et rerum iste aspernatur similique odit quidem ad ut culpa veniam facere laborum, quos ex!</h1>
+				<div class="hero-l-content">
+					<h1 class="name">Hi! I'm Liam Pallett.</h1>
+					<p class="blurb">19 y/o Software Engineering student @ University of Sheffield.</p>
+					<a href="/resources/Liam Pallett CV.pdf" class="cv" target="_blank">Download CV</a>
+					<a onclick="copyEmail()" class="email">liam.pallett06@gmail.com</a>
+
+					<div class="socials">
+						<a href="https://bsky.app/profile/liam-pallett.bsky.social" target="_blank"><i class="fa-brands fa-bluesky"></i></a>
+						<a href="https://github.com/liampallett" target="_blank"><i class="fa-brands fa-github"></i></a>
+						<a href="https://www.linkedin.com/in/liam-pallett/" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+						<a href="https://www.reddit.com/user/liam_pallett/" target="_blank"><i class="fa-brands fa-reddit-alien"></i></a>
+					</div>
+				</div>
 			</div>
-			<div class="hero-r">right</div>
+			<div class="hero-r">
+				<img src="/src/images/jp-morgan-photo.jpeg" class="profile-photo" alt="A photo of me standing in front of a podium in the J.P. Morgan office in London.">
+			</div>
 		</div>
 	</VH>
 </Layout>
 
 <style>
+	body {
+		color: var(--black-kite);
+	}
+
 	.hero {
 		display: flex;
 		flex-grow: 1;
@@ -31,9 +48,97 @@ import VH from "../components/vh.astro";
 		background-color: var(--aqua-mist);
 	}
 
+	.hero-l-content {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		padding: 0 1em;
+	}
+
+	.name {
+		font-size: 5em;
+		margin: 0 0;
+	}
+
+	.blurb {
+		font-size: 2.5em;
+		margin: 0 0;
+	}
+
+	.email {
+		display: inline-block;
+		color: black;
+		text-decoration: none;
+		font-size: 2em;
+	}
+
+	.email:hover {
+		color: var(--morning-snow);
+		text-decoration: underline;
+	}
+
+	.cv {
+		color: black;
+		text-decoration: none;
+		font-size: 2em;
+	}
+
+	.cv:hover {
+		color: var(--morning-snow);
+		text-decoration: underline;
+	}
+
+	.socials {
+        display: none;
+        gap: 1em;
+    }
+
+	.socials a {
+		color: var(--black-kite);
+		font-size: 2.5em;
+	}
+
+	.socials a:hover {
+        color: var(--morning-snow);
+        text-decoration: underline;
+    }
+
+	@media screen and (max-width: 700px) {
+		.socials {
+			display: flex;
+		}
+
+		.hero {
+			flex-direction: column;
+		}
+	}
+
 	.hero-r {
 		min-width: 50%;
 		min-height: 100%;
-		background-color: var(--toxic-orange);
+		background-color: var(--amazon-mist);
+		
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.profile-photo {
+		border-radius: 10em;
 	}
 </style>
+
+<script is:inline>
+	const emailText = document.querySelector(".email");
+
+	function copyEmail() {
+		emailText.textContent = "Copied!";
+		navigator.clipboard.writeText("liam.pallett06@gmail.com");
+
+		setTimeout(resetEmail, 5000);
+	}
+
+	function resetEmail() {
+		emailText.textContent = "liam.pallett06@gmail.com"
+	}
+</script>
