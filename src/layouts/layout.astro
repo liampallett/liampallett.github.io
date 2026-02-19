@@ -28,8 +28,22 @@ import Header from "../components/header.astro";
 
 <style>
     body {
+		color: var(--black-kite);
         background-color: var(--amazon-mist);
         margin: 0;
+    }
+
+    .content {
+        max-width: 70%;
+        margin-inline: auto;
+        margin-top: 100px;
+    }
+
+    @media screen and (max-width:700px) {
+        .content {
+            max-width: 90%;
+            margin-top: 50;
+        }
     }
 </style>
 

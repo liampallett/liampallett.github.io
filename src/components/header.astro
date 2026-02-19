@@ -19,8 +19,7 @@
     header {
         display: flex;
         gap: 1.5em;
-        padding: 2em 2em;
-        background-color: var(--toxic-orange);
+        padding: 2em;
     }
 
     .socials {
@@ -32,6 +31,7 @@
     @media screen and (max-width: 700px) {
         header {
             font-size: 1em;
+            justify-content: center;
         }
 
         .socials {
@@ -42,19 +42,25 @@
     a {
         font-size: 2.5em;
         color: var(--black-kite);
-        
+        transition: all 0.1s ease-in-out;
 
         text-decoration: none;
     }
 
     a:hover {
-        color: var(--morning-snow);
+        color: var(--toxic-orange);
         text-decoration: underline;
     }
 </style>
 
 <style is:global>
     :root {
-        --header-height: 112.5px;
+        --header-height: 212.5px;
+    }
+
+    @media screen and (max-width: 700px) {
+        :root {
+            --header-height: 162.5px;
+        }
     }
 </style>
