@@ -2,6 +2,7 @@
 const { title } = Astro.props;
 
 import Header from "../components/header.astro";
+import Footer from "../components/footer.astro";
 ---
 
 <html lang="en">
@@ -23,6 +24,7 @@ import Header from "../components/header.astro";
 		<div class="content">
             <slot />
         </div>
+        <Footer></Footer>
 	</body>
 </html>
 
@@ -31,6 +33,7 @@ import Header from "../components/header.astro";
 		color: var(--black-kite);
         background-color: var(--amazon-mist);
         margin: 0;
+        
     }
 
     .content {
@@ -39,7 +42,7 @@ import Header from "../components/header.astro";
         margin-top: 100px;
     }
 
-    @media screen and (max-width:700px) {
+    @media screen and (max-width:800px) {
         .content {
             max-width: 90%;
             margin-top: 50;
@@ -54,7 +57,7 @@ import Header from "../components/header.astro";
 
     :root {
         --morning-snow: #f5f4ed;
-        --amazon-mist: #edecdc;
+        --amazon-mist: #e6e4cd;
         --aqua-mist: #a0c9cb;
         --toxic-orange: #ff6037;
         --black-kite: #351e1c;

@@ -1,0 +1,48 @@
+--- 
+const { title, link, description } = Astro.props;
+---
+
+<div class="card">
+    <div class="top-bar">
+        <h1>{title}</h1>
+        <a href={link} target="_blank" class="github-link">View on Github</a>
+    </div>
+    <p>{description}</p>
+</div>
+
+<style>
+    .card {
+        padding: 1em;
+        margin-bottom: 5em;
+    }
+
+    .top-bar {
+        display: flex;
+    }
+
+    .top-bar h1 {
+        font-size: 2.5em;
+        margin-top: 0;
+    }
+
+    .top-bar a {
+        font-size: 2.5em;
+        margin-left: auto;
+    }
+
+    .card p {
+        margin: 0;
+        font-size: 1.9em;
+    }
+
+    .github-link {
+        color: var(--black-kite);
+        text-decoration: none;
+        transition: all 0.1s ease-in-out;
+    }
+
+    .github-link:hover {
+        color: var(--garnet);
+        text-decoration: underline;
+    }
+</style>

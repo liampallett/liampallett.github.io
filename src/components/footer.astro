@@ -1,0 +1,58 @@
+---
+---
+
+<footer>
+    <p>Email: <a onclick="copyEmail()" class="email">liam.pallett06@gmail.com</a></p>
+
+    <div class="astro-link">
+        <p>© Liam Pallett 2026</p>
+        <p> Made with <i class="fa-solid fa-heart"></i> (and <a href="https://astro.build/" target="_blank">Astro</a>).</p>
+    </div>
+</footer>
+
+<style>
+    footer {
+        display: flex;
+        flex-direction: column;
+        padding: 2em;
+        background-color: var(--black-kite);
+        color: var(--morning-snow);
+        font-size: 2em;
+    }
+
+    a {
+        color: var(--morning-snow);
+		text-decoration: none;
+		transition: all 0.1s ease-in-out;
+	}
+
+    p {
+        margin-bottom: 0;
+    }
+
+	a:hover {
+		color: var(--garnet);
+		text-decoration: underline;
+	}
+
+    .astro-link {
+        display: flex;
+        justify-content: space-between;
+    }
+
+</style>
+
+<script is:inline>
+	const emailText = document.querySelector(".email");
+
+	function copyEmail() {
+		emailText.textContent = "Copied!";
+		navigator.clipboard.writeText("liam.pallett06@gmail.com");
+
+		setTimeout(resetEmail, 5000);
+	}
+
+	function resetEmail() {
+		emailText.textContent = "liam.pallett06@gmail.com"
+	}
+</script>
