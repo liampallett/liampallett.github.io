@@ -9,7 +9,7 @@ import ProjectCard from "../components/project-card.astro";
 		<div class="hero-content">
 			<h1 class="name">Hi! I'm Liam Pallett.</h1>
 			<p class="blurb">19 y/o Software Engineering student @ University of Sheffield.</p>
-			<a href="/resources/Liam Pallett CV.pdf" class="cv" target="_blank">Download CV</a>
+			<a href="/Liam%20Pallett%20CV.pdf" class="link" target="_blank">Download CV</a>
 
 			<div class="socials">
 				<a href="https://bsky.app/profile/liam-pallett.bsky.social" target="_blank"><i class="fa-brands fa-bluesky"></i></a>
@@ -17,12 +17,14 @@ import ProjectCard from "../components/project-card.astro";
 				<a href="https://www.linkedin.com/in/liam-pallett/" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
 				<a href="https://www.reddit.com/user/liam_pallett/" target="_blank"><i class="fa-brands fa-reddit-alien"></i></a>
 			</div>
-		</div>
 
-		<ProjectCard title="Featured Project: open-ttp" link="https://github.com/liampallett/open-ttp" description=
-		"A simple C++ program for simulating and decoding 64-byte packed binary telemetry data with integrity validation.
-		">
-		</ProjectCard>
+			<ProjectCard title="Featured: Flight Dynamics (2026)" link="https://github.com/liampallett/flight-dynamics"
+						 description="Flight dynamics simulator written in Python. Simulate complex multi-stage rockets with different propellant and engine configuration."
+						 tags={["Python", "Isentropic Flow", "Simulation", "Rocketry"]}>
+			</ProjectCard>
+
+			<a class="link" href="/projects" >See all projects</a>
+		</div>
 	</VH>
 </Layout>
 
@@ -32,7 +34,7 @@ import ProjectCard from "../components/project-card.astro";
 		flex-direction: column;
 		gap: 0.5rem;
 		padding: 0 1em;
-		margin-bottom: 100px;
+		margin-bottom: 5rem;
 	}
 
 	.name {
@@ -45,14 +47,14 @@ import ProjectCard from "../components/project-card.astro";
 		margin: 0;
 	}
 
-	.cv {
+	.link {
 		color: var(--black-kite);
 		text-decoration: none;
 		font-size: 2.5em;
-		transition: all 0.1s ease-in-out;
+		transition: color 0.1s ease-in-out;
 	}
 
-	.cv:hover {
+	.link:hover {
 		color: var(--garnet);
 		text-decoration: underline;
 	}
@@ -68,12 +70,13 @@ import ProjectCard from "../components/project-card.astro";
 	}
 
 	.socials a:hover {
-        color: var(--morning-snow);
+        color: var(--garnet);
         text-decoration: underline;
     }
 
 	@media screen and (max-width: 800px) {
 		.socials {
+			font-size: 0.75em;
 			display: flex;
 			justify-content: center;
 		}
@@ -86,12 +89,8 @@ import ProjectCard from "../components/project-card.astro";
 			font-size: 1.5em;
 		}
 
-		.cv, .email {
+		.link {
 			font-size: 1.5em;
-		}
-
-		.socials {
-			font-size: 0.75em;
 		}
 	}
 </style>

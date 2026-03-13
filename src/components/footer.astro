@@ -2,9 +2,9 @@
 ---
 
 <footer>
-    <p>Email: <a onclick="copyEmail()" class="email">liam.pallett06@gmail.com</a></p>
+    <p>Email: <a class="email">liam.pallett06@gmail.com</a></p>
 
-    <div class="astro-link">
+    <div class="footer-meta">
         <p>© Liam Pallett 2026</p>
         <p> Made with <i class="fa-solid fa-heart"></i> (and <a href="https://astro.build/" target="_blank">Astro</a>).</p>
     </div>
@@ -23,7 +23,7 @@
     a {
         color: var(--morning-snow);
 		text-decoration: none;
-		transition: all 0.1s ease-in-out;
+		transition: color 0.1s ease-in-out;
 	}
 
     p {
@@ -35,7 +35,7 @@
 		text-decoration: underline;
 	}
 
-    .astro-link {
+    .footer-meta {
         display: flex;
         justify-content: space-between;
     }
@@ -44,6 +44,7 @@
 
 <script is:inline>
 	const emailText = document.querySelector(".email");
+    document.querySelector(".email").addEventListener("click", copyEmail)
 
 	function copyEmail() {
 		emailText.textContent = "Copied!";

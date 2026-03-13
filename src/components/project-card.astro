@@ -1,5 +1,5 @@
---- 
-const { title, link, description } = Astro.props;
+---
+const { title, link, description, tags = [] } = Astro.props;
 ---
 
 <div class="card">
@@ -8,6 +8,11 @@ const { title, link, description } = Astro.props;
         <a href={link} target="_blank" class="github-link">View on Github</a>
     </div>
     <p>{description}</p>
+    {tags.length > 0 && (
+        <div class="tags">
+            {tags.map((tag: string) => <span class="tag">{tag}</span>)}
+        </div>
+    )}
 </div>
 
 <style>
@@ -38,11 +43,26 @@ const { title, link, description } = Astro.props;
     .github-link {
         color: var(--black-kite);
         text-decoration: none;
-        transition: all 0.1s ease-in-out;
+        transition: color 0.1s ease-in-out;
     }
 
     .github-link:hover {
         color: var(--garnet);
         text-decoration: underline;
+    }
+
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        margin-top: 0.75em;
+    }
+
+    .tag {
+        background-color: var(--black-kite);
+        color: var(--morning-snow);
+        font-size: 0.9em;
+        padding: 0.2em 0.6em;
+        border-radius: 4px;
     }
 </style>

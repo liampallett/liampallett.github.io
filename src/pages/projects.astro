@@ -6,14 +6,29 @@ import ProjectCard from "../components/project-card.astro";
 
 <Layout title="Projects">
     <Vh>
-        <ProjectCard title="Open-ttp" link="https://github.com/liampallett/open-ttp" description=
-		"A simple C++ program for simulating and decoding 64-byte packed binary telemetry data with integrity validation.
-		">
+		<ProjectCard title="Newtonian Orbit Mechanics (2026)" link="https://github.com/liampallett/newtonian-orbit-mechanics"
+					 description="Simple orbital mechanics simulator using the Newtonian model."
+					 tags={["C++", "Orbital Mechanics", "Simulation"]}>
 		</ProjectCard>
 
-        <ProjectCard title="Newtonian Orbit Mechanics" link="https://github.com/liampallett/newtonian_orbit_mechanics" description=
-		"Simple orbital mechanics simulator using the Newtonian model.
-		">
+		<ProjectCard title="Flight Dynamics (2026)" link="https://github.com/liampallett/flight-dynamics"
+					 description="Flight dynamics simulator written in Python. Simulate complex multi-stage rockets with different propellant and engine configuration."
+					 tags={["Python", "Isentropic Flow", "Simulation", "Rocketry"]}>
+		</ProjectCard>
+
+		<ProjectCard title="Open-TTP (2026)" link="https://github.com/liampallett/open-ttp"
+					 description="A simple C++ program for simulating and decoding 64-byte packed binary telemetry data with integrity validation."
+					 tags={["C++", "Telemetry", "Protocol Design", "Binary Frames"]}>
+		</ProjectCard>
+
+		<ProjectCard title="Satellite Visualiser (2026)" link="https://github.com/liampallett/satellite-tracker"
+					 description="Visualise the live orbits of Earth's satellites and space stations."
+					 tags={["Python", "Celestrak API", "Keplerian Motion"]}>
+		</ProjectCard>
+
+		<ProjectCard title="Personal/Portfolio Website (2025)" link="https://github.com/liampallett/liampallett.github.io"
+					 description="Personal portfolio page built in Astro and deployed via GitHub Actions to GitHub Pages."
+					 tags={["Astro", "TypeScript", "CSS", "GitHub Pages"]}>
 		</ProjectCard>
     </Vh>
 </Layout>
