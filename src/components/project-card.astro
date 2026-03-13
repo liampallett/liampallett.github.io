@@ -5,7 +5,7 @@ const { title, link, description, tags = [] } = Astro.props;
 <div class="card">
     <div class="top-bar">
         <h1>{title}</h1>
-        <a href={link} target="_blank" class="github-link">View on Github</a>
+        <a href={link} target="_blank" class="github-link">View on GitHub</a>
     </div>
     <p>{description}</p>
     {tags.length > 0 && (
@@ -23,6 +23,7 @@ const { title, link, description, tags = [] } = Astro.props;
 
     .top-bar {
         display: flex;
+        align-items: flex-start;
     }
 
     .top-bar h1 {
@@ -64,5 +65,15 @@ const { title, link, description, tags = [] } = Astro.props;
         font-size: 0.9em;
         padding: 0.2em 0.6em;
         border-radius: 4px;
+    }
+
+    @media screen and (max-width: 800px) {
+        .top-bar {
+            flex-direction: column;
+        }
+
+        .top-bar a {
+            margin-left: 0;
+        }
     }
 </style>

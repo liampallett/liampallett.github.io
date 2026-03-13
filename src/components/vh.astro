@@ -10,16 +10,12 @@
     .vh {
         display: flex;
         flex-direction: column;
-        min-height: 100dvh;
+        min-height: calc(100dvh - var(--header-height));
     }
 
     @media screen and (max-width: 800px) {
         .vh {
             text-align: center;
         }
-    }
-
-    .vh:first-child {
-        min-height: calc(100dvh - var(--header-height));
     }
 </style>

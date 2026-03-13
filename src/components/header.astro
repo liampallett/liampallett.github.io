@@ -4,9 +4,9 @@
 
 <header>
     <p><i class="fa-solid fa-user-astronaut"></i></p>
-    <a href="/">Home</a>
-    <a href="/projects">Projects</a>
-    <a href="/blog">Blog</a>
+    <a href="/" class={Astro.url.pathname === "/" ? "active" : ""}>Home</a>
+    <a href="/projects" class={Astro.url.pathname === "/projects" ? "active" : ""}>Projects</a>
+    <a href="/blog" class={Astro.url.pathname === "/blog" ? "active" : ""}>Blog</a>
 
     <div class="socials">
         <a href="https://bsky.app/profile/liam-pallett.bsky.social" target="_blank"><i class="fa-brands fa-bluesky"></i></a>
@@ -57,6 +57,10 @@
         transition: color 0.1s ease-in-out;
 
         text-decoration: none;
+    }
+
+    a.active {
+        color: var(--garnet);
     }
 
     a:hover {
