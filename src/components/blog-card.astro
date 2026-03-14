@@ -1,24 +1,26 @@
 ---
-const { title, link, description, tags = [] } = Astro.props;
+const { title, link, description, date } = Astro.props as {
+    title: string,
+    link: string,
+    description: string,
+    date: Date;
+};
 ---
 
 <div class="card">
     <div class="top-bar">
         <h2 class="card-title">{title}</h2>
-        <a href={link} target="_blank" class="github-link">View on GitHub</a>
+        <a href={link} target="_blank" class="view-link">View Post</a>
     </div>
-    <p>{description}</p>
-    {tags.length > 0 && (
-        <div class="tags">
-            {tags.map((tag: string) => <span class="tag">{tag}</span>)}
-        </div>
-    )}
+    <p class="description-text">{description}</p>
+    <p class="date-text">{date.toLocaleDateString()}</p>
 </div>
 
 <style>
     .card {
         padding: 1em;
         margin-bottom: 5em;
+        text-align: left;
     }
 
     .top-bar {
@@ -37,35 +39,26 @@ const { title, link, description, tags = [] } = Astro.props;
         margin-left: auto;
     }
 
-    .card p {
+    .card .description-text {
         margin: 0;
         font-size: 1.9em;
     }
 
-    .github-link {
+    .view-link {
         color: var(--black-kite);
         text-decoration: none;
         transition: color 0.1s ease-in-out;
     }
 
-    .github-link:hover {
+    .view-link:hover {
         color: var(--garnet);
         text-decoration: underline;
     }
 
-    .tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5em;
-        margin-top: 0.75em;
-    }
-
-    .tag {
-        background-color: var(--black-kite);
-        color: var(--morning-snow);
-        font-size: 0.9em;
-        padding: 0.2em 0.6em;
-        border-radius: 4px;
+    .date-text {
+        margin: 0;
+        font-size: 1.4em;
+        color: var(--garnet);
     }
 
     @media screen and (max-width: 800px) {
@@ -75,6 +68,7 @@ const { title, link, description, tags = [] } = Astro.props;
 
         .top-bar a {
             margin-left: 0;
+            margin-top: 0.5em;
         }
     }
 </style>

@@ -22,6 +22,12 @@
         display: flex;
         gap: 1.5em;
         padding: 2em;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 100;
+        box-sizing: border-box;
     }
 
     p {
@@ -71,12 +77,12 @@
 
 <style is:global>
     :root {
-        --header-height: 212.5px;
+        --header-height: 213px;
     }
 
     @media screen and (max-width: 800px) {
         :root {
-            --header-height: 162.5px;
+            --header-height: 163px;
         }
     }
 </style>

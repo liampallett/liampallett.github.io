@@ -1,0 +1,59 @@
+---
+import Layout from "../../layouts/layout.astro";
+import Vh from "../../components/vh.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+    const posts = await getCollection("blog");
+    return posts.map(post => ({
+        params: { slug: post.slug },
+        props: { post }
+    }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout title={post.data.title}>
+    <Vh>
+        <div class="prose">
+            <Content />
+        </div>
+    </Vh>
+</Layout>
+
+<style is:global>
+    .prose {
+        font-size: 1.9em;
+        padding-bottom: 4rem;
+    }
+
+    .prose h1 {
+        font-size: 2.5em;
+    }
+
+    .prose h2 {
+        font-size: 2em;
+        font-weight: normal;
+    }
+
+    .prose img {
+        max-width: 70%;
+        height: auto;
+        display: block;
+        margin-inline: auto;
+        margin-block: 2em;
+    }
+
+    @media screen and (max-width: 800px) {
+        .prose img {
+            max-width: 100%;
+        }
+
+        .prose {
+            font-size: 1.2em;
+            text-align: left;
+        }
+    }
+</style>

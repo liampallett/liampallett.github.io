@@ -20,6 +20,8 @@ const { title } = Astro.props;
 		<meta name="description" content="Liam Pallett — Software Engineering student at the University of Sheffield." />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content="Software Engineering student & developer." />
+        <meta property="og:image" content="" />
+        <meta property="og:type" content="website" />
 
 		<title>{title}</title>
 	</head>
@@ -37,12 +39,13 @@ const { title } = Astro.props;
 		color: var(--black-kite);
         background-color: var(--amazon-mist);
         margin: 0;
+        min-height: 100vh;
+        padding-top: var(--header-height);
     }
 
     .content {
         max-width: 70%;
         margin-inline: auto;
-        margin-top: var(--header-height);
     }
 
     @media screen and (max-width:800px) {
@@ -63,5 +66,15 @@ const { title } = Astro.props;
         --black-kite: #351e1c;
         --garnet: #733635;
     }
-    
+
+    html {
+        background-color: var(--black-kite);
+    }
+
+    * {
+        scrollbar-width: none; /* Firefox */
+    }
+    *::-webkit-scrollbar {
+        display: none; /* Chrome, Safari */
+    }
 </style>
