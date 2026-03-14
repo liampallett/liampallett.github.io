@@ -1,14 +1,15 @@
 name: Post to Bluesky on new blog post
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/content/blog/**/index.md'
+  workflow_run:
+    workflows: [ "Deploy Astro site to Pages" ]
+    types: [ completed ]
+    branches: [ main ]
 
 jobs:
   post:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -25,41 +26,52 @@ jobs:
         if: steps.detect.outputs.file != ''
         run: |
           FILE="${{ steps.detect.outputs.file }}"
-          TITLE=$(grep '^title:' "$FILE" | head -n 1 | sed 's/title: //' | tr -d '"'"'" )
           SLUG=$(echo "$FILE" | sed 's|src/content/blog/||' | sed 's|/index.md||')
           URL="https://liampallett.github.io/blog/$SLUG"
-          echo "title=$TITLE" >> $GITHUB_OUTPUT
           echo "url=$URL" >> $GITHUB_OUTPUT
 
       - name: Post to Bluesky
         if: steps.detect.outputs.file != ''
+        env:
+          BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
+          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+          POST_URL: ${{ steps.meta.outputs.url }}
         run: |
-          curl -X POST https://bsky.social/xrpc/com.atproto.server.createSession \
-            -H "Content-Type: application/json" \
-            -d '{"identifier":"${{ secrets.BLUESKY_HANDLE }}","password":"${{ secrets.BLUESKY_APP_PASSWORD }}"}' \
-            -o session.json
+          python3 << 'EOF'
+          import json, os, urllib.request, datetime
 
-          TOKEN=$(cat session.json | python3 -c "import sys,json; print(json.load(sys.stdin)['accessJwt'])")
-          DID=$(cat session.json | python3 -c "import sys,json; print(json.load(sys.stdin)['did'])")
+          handle = os.environ["BLUESKY_HANDLE"]
+          password = os.environ["BLUESKY_APP_PASSWORD"]
+          url = os.environ["POST_URL"]
 
-          TEXT="New blog post: ${{ steps.meta.outputs.title }} ${{ steps.meta.outputs.url }}"
-          URL="${{ steps.meta.outputs.url }}"
-          URL_START=$(echo -n "New blog post: ${{ steps.meta.outputs.title }} " | wc -c | tr -d ' ')
-          URL_END=$((URL_START + ${#URL}))
+          # Auth
+          req = urllib.request.Request(
+            "https://bsky.social/xrpc/com.atproto.server.createSession",
+            data=json.dumps({"identifier": handle, "password": password}).encode(),
+            headers={"Content-Type": "application/json"}
+          )
+          session = json.loads(urllib.request.urlopen(req).read())
 
-          curl -X POST https://bsky.social/xrpc/com.atproto.repo.createRecord \
-            -H "Authorization: Bearer $TOKEN" \
-            -H "Content-Type: application/json" \
-            -d "{
-              \"repo\": \"$DID\",
-              \"collection\": \"app.bsky.feed.post\",
-              \"record\": {
-                \"\$type\": \"app.bsky.feed.post\",
-                \"text\": \"$TEXT\",
-                \"facets\": [{
-                  \"index\": {\"byteStart\": $URL_START, \"byteEnd\": $URL_END},
-                  \"features\": [{\"$type\": \"app.bsky.richtext.facet#link\", \"uri\": \"$URL\"}]
-                }],
-                \"createdAt\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
-              }
-            }"
+          # Build post
+          display_url = url.replace("https://", "")
+          text = f"Just made a new blog post: {display_url}"
+          url_start = len("Just made a new blog post: ".encode("utf-8"))
+          url_end = url_start + len(display_url.encode("utf-8"))
+
+          record = {
+            "$type": "app.bsky.feed.post",
+            "text": text,
+            "facets": [{
+              "index": {"byteStart": url_start, "byteEnd": url_end},
+              "features": [{"$type": "app.bsky.richtext.facet#link", "uri": url}]
+            }],
+            "createdAt": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+          }
+
+          req = urllib.request.Request(
+            "https://bsky.social/xrpc/com.atproto.repo.createRecord",
+            data=json.dumps({"repo": session["did"], "collection": "app.bsky.feed.post", "record": record}).encode(),
+            headers={"Authorization": f"Bearer {session['accessJwt']}", "Content-Type": "application/json"}
+          )
+          print(urllib.request.urlopen(req).read().decode())
+          EOF
