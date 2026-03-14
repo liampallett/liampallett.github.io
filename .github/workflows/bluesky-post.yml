@@ -54,17 +54,35 @@ jobs:
 
           # Build post
           display_url = url.replace("https://", "")
-          text = f"Just made a new blog post: {display_url}"
+          hashtags = ["#blog", "#spacetech", "#aerospace", "#softwareengineering"]
+          hashtag_str = " ".join(hashtags)
+          text = f"Just made a new blog post: {display_url}\n\n{hashtag_str}"
+
+          facets = []
+
+          # Link facet
           url_start = len("Just made a new blog post: ".encode("utf-8"))
           url_end = url_start + len(display_url.encode("utf-8"))
+          facets.append({
+            "index": {"byteStart": url_start, "byteEnd": url_end},
+            "features": [{"$type": "app.bsky.richtext.facet#link", "uri": url}]
+          })
+
+          # Hashtag facets
+          search_start = len(f"Just made a new blog post: {display_url}\n\n".encode("utf-8"))
+          for tag in hashtags:
+            tag_start = search_start
+            tag_end = tag_start + len(tag.encode("utf-8"))
+            facets.append({
+              "index": {"byteStart": tag_start, "byteEnd": tag_end},
+              "features": [{"$type": "app.bsky.richtext.facet#tag", "tag": tag.lstrip("#")}]
+            })
+            search_start = tag_end + 1
 
           record = {
             "$type": "app.bsky.feed.post",
             "text": text,
-            "facets": [{
-              "index": {"byteStart": url_start, "byteEnd": url_end},
-              "features": [{"$type": "app.bsky.richtext.facet#link", "uri": url}]
-            }],
+            "facets": facets,
             "createdAt": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
           }
 
