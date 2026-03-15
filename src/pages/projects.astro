@@ -6,19 +6,14 @@ import ProjectCard from "../components/project-card.astro";
 
 <Layout title="Projects">
     <Vh>
-		<ProjectCard title="Physics Engine (2026)" link="https://github.com/liampallett/physics-engine"
-					 description="Custom physics engine with Vector2D implementation."
-					 tags={["C++", "Physics Engine", "Simulation"]}>
-		</ProjectCard>
+        <ProjectCard title="Orbit Simulation (2026)" link="https://github.com/liampallett/orbit-simulation"
+                     description="Simple 2D orbit simulator written in Python."
+                     tags={["Python", "Orbital Mechanics", "Simulation"]}>
+        </ProjectCard>
 
 		<ProjectCard title="Flight Dynamics (2026)" link="https://github.com/liampallett/flight-dynamics"
 					 description="Flight dynamics simulator written in Python. Simulate complex multi-stage rockets with different propellant and engine configuration."
 					 tags={["Python", "Isentropic Flow", "Simulation", "Rocketry"]}>
-		</ProjectCard>
-
-		<ProjectCard title="Open-TTP (2026)" link="https://github.com/liampallett/open-ttp"
-					 description="A simple C++ program for simulating and decoding 64-byte packed binary telemetry data with integrity validation."
-					 tags={["C++", "Telemetry", "Protocol Design", "Binary Frames"]}>
 		</ProjectCard>
 
 		<ProjectCard title="Satellite Visualiser (2026)" link="https://github.com/liampallett/satellite-tracker"
@@ -26,14 +21,19 @@ import ProjectCard from "../components/project-card.astro";
 					 tags={["Python", "Celestrak API", "Keplerian Motion"]}>
 		</ProjectCard>
 
+		<ProjectCard title="Physics Engine (2026)" link="https://github.com/liampallett/physics-engine"
+					 description="Custom physics engine with Vector2D implementation."
+					 tags={["C++", "Physics Engine", "Simulation"]}>
+		</ProjectCard>
+
+		<ProjectCard title="Open-TTP (2026)" link="https://github.com/liampallett/open-ttp"
+					 description="A simple C++ program for simulating and decoding 64-byte packed binary telemetry data with integrity validation."
+					 tags={["C++", "Telemetry", "Protocol Design", "Binary Frames"]}>
+		</ProjectCard>
+
 		<ProjectCard title="Personal/Portfolio Website (2025)" link="https://github.com/liampallett/liampallett.github.io"
 					 description="Personal portfolio page built in Astro and deployed via GitHub Actions to GitHub Pages."
 					 tags={["Astro", "TypeScript", "CSS", "GitHub Pages"]}>
 		</ProjectCard>
-
-        <ProjectCard title="Orbit Simulation (2026)" link="https://github.com/liampallett/orbit-simulation"
-                     description="Simple 2D orbit simulator written in Python."
-                     tags={["Python", "Orbital Mechanics", "Simulation"]}>
-        </ProjectCard>
     </Vh>
 </Layout>
