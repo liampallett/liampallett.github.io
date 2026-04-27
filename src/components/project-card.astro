@@ -5,7 +5,7 @@ const { title, link, description, tags = [] } = Astro.props;
 <div class="card">
     <div class="top-bar">
         <h2 class="card-title">{title}</h2>
-        <a href={link} target="_blank" class="github-link">View on GitHub</a>
+        <a href={link} target="_blank" rel="noopener noreferrer" class="github-link">View on GitHub</a>
     </div>
     <p>{description}</p>
     {tags.length > 0 && (

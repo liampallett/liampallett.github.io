@@ -10,7 +10,7 @@ const { title, link, description, date } = Astro.props as {
 <div class="card">
     <div class="top-bar">
         <h2 class="card-title">{title}</h2>
-        <a href={link} target="_blank" class="view-link">View Post</a>
+        <a href={link} class="view-link">View Post</a>
     </div>
     <p class="description-text">{description}</p>
     <p class="date-text">{date.toLocaleDateString()}</p>
