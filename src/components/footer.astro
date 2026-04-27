@@ -42,10 +42,14 @@
 
     .email {
         cursor: pointer;
-        word-break: break-all;
+        overflow-wrap: break-word;
     }
 
     @media screen and (max-width: 800px) {
+        footer {
+            font-size: 1.3em;
+        }
+
         .footer-meta {
             flex-direction: column;
             gap: 0.5em;
