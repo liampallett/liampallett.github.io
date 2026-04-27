@@ -2,6 +2,7 @@
 title: "NSSC Day 2"
 date: 2026-03-15
 description: "Look back on the second day of the NSSC and the weekend as a whole."
+tags: ["NSSC 2026", "Conference"]
 ---
 
 # NSSC Day 2 and the weekend as a whole
