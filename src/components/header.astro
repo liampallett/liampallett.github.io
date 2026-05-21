@@ -4,12 +4,26 @@
 
 <header>
     <p><i class="fa-solid fa-user-astronaut"></i></p>
-    <a href="/" class={Astro.url.pathname === "/" ? "active" : ""} aria-current={Astro.url.pathname === "/" ? "page" : undefined}>Home</a>
-    <a href="/projects" class={Astro.url.pathname === "/projects" ? "active" : ""} aria-current={Astro.url.pathname === "/projects" ? "page" : undefined}>Projects</a>
-    <a href="/blog" class={Astro.url.pathname === "/blog" ? "active" : ""} aria-current={Astro.url.pathname === "/blog" ? "page" : undefined}>Blog</a>
+    <a
+        href="/"
+        class={Astro.url.pathname.replace(/\/$/, "") === "" ? "active" : ""}
+        aria-current={Astro.url.pathname.replace(/\/$/, "") === "" ? "page" : undefined}
+    >Home</a>
+
+    <a
+        href="/projects"
+        class={Astro.url.pathname.replace(/\/$/, "") === "/projects" ? "active" : ""}
+        aria-current={Astro.url.pathname.replace(/\/$/, "") === "/projects" ? "page" : undefined}
+    >Projects</a>
+
+    <a
+        href="/blog"
+        class={Astro.url.pathname.startsWith("/blog") ? "active" : ""}
+        aria-current={Astro.url.pathname.startsWith("/blog") ? "page" : undefined}
+    >Blog</a>
 
     <div class="socials">
-        <a href="https://bsky.app/profile/liam-pallett.bsky.social" target="_blank" rel="noopener noreferrer" aria-label="Bluesky"><i class="fa-brands fa-bluesky"></i></a>
+        <a href="https://bsky.app/profile/liampallett.space" target="_blank" rel="noopener noreferrer" aria-label="Bluesky"><i class="fa-brands fa-bluesky"></i></a>
         <a href="https://github.com/liampallett" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
         <a href="https://www.linkedin.com/in/liam-pallett/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
         <a href="https://www.reddit.com/user/liam_pallett/" target="_blank" rel="noopener noreferrer" aria-label="Reddit"><i class="fa-brands fa-reddit-alien"></i></a>
