@@ -13,6 +13,7 @@ const { title } = Astro.props;
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 		<script defer src="https://kit.fontawesome.com/a92da80a5c.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
@@ -80,5 +81,11 @@ const { title } = Astro.props;
     }
     *::-webkit-scrollbar {
         display: none; /* Chrome, Safari */
+    }
+
+    /* Fix KaTeX sizing to sit naturally within your body paragraphs */
+    .katex {
+        font-size: 0.9em !important; /* Slightly downsizes the math text */
+        letter-spacing: normal;
     }
 </style>

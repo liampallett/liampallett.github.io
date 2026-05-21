@@ -18,15 +18,17 @@ jobs:
       - name: Detect new blog post
         id: detect
         run: |
-          NEW_FILE=$(git diff --name-only --diff-filter=A HEAD~1 HEAD | grep 'src/content/blog/.*/index.md' | head -n 1)
+          # Matches src/content/blog/any-slug/index.md or direct markdown configurations
+          NEW_FILE=$(git diff --name-only --diff-filter=A HEAD~1 HEAD | grep -E 'src/content/blog/.*\.md' | head -n 1)
           echo "file=$NEW_FILE" >> $GITHUB_OUTPUT
 
-      - name: Extract frontmatter
+      - name: Extract Metadata Context
         id: meta
         if: steps.detect.outputs.file != ''
         run: |
           FILE="${{ steps.detect.outputs.file }}"
-          SLUG=$(echo "$FILE" | sed 's|src/content/blog/||' | sed 's|/index.md||')
+          # Drops parent directories and handles both single files and directory index structures
+          SLUG=$(echo "$FILE" | sed 's|src/content/blog/||' | sed 's|/index.md||' | sed 's|\.md||')
           URL="https://liampallett.github.io/blog/$SLUG"
           echo "url=$URL" >> $GITHUB_OUTPUT
 
@@ -36,15 +38,45 @@ jobs:
           BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
           BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
           POST_URL: ${{ steps.meta.outputs.url }}
+          TARGET_FILE: ${{ steps.detect.outputs.file }}
         run: |
           python3 << 'EOF'
-          import json, os, urllib.request, datetime
+          import json, os, urllib.request, datetime, re
 
           handle = os.environ["BLUESKY_HANDLE"]
           password = os.environ["BLUESKY_APP_PASSWORD"]
           url = os.environ["POST_URL"]
+          target_file = os.environ["TARGET_FILE"]
 
-          # Auth
+          # --- FRONTMATTER TAG EXTRACTION ---
+          extracted_tags = []
+          try:
+              with open(target_file, 'r', encoding='utf-8') as f:
+                  content = f.read()
+          
+              # Isolate the frontmatter YAML block between the first set of ---
+              fm_match = re.search(r'^---\s*\n(.*?)\n---', content, re.DOTALL | re.MULTILINE)
+              if fm_match:
+                  fm_text = fm_match.group(1)
+                  # Search for the tags block inside the isolated frontmatter
+                  # Captures variations like tags: ["AI", "DeepMind"] or tags: ['AI']
+                  tags_match = re.search(r'^tags:\s*\[(.*?)\]', fm_text, re.MULTILINE)
+                  if tags_match:
+                      # Split by comma, drop quotation marks, strip leading/trailing whitespace
+                      raw_tags = tags_match.group(1).split(',')
+                      extracted_tags = [t.replace('"', '').replace("'", "").strip() for t in raw_tags if t.strip()]
+          except Exception as e:
+              print(f"Warning: Failed to safely parse tags from frontmatter: {e}")
+
+          # Map tags to hashtags format (e.g., "DeepMind" -> "#DeepMind")
+          # Spaces are stripped to create legal hashtags (e.g., "Discussion Piece" -> "#DiscussionPiece")
+          hashtags = [f"#{tag.replace(' ', '')}" for tag in extracted_tags]
+          
+          # Default fallback tags if the markdown metadata block is blank
+          if not hashtags:
+              hashtags = ["#blog", "#tech"]
+
+          # --- BLUESKY API AUTH ---
           req = urllib.request.Request(
             "https://bsky.social/xrpc/com.atproto.server.createSession",
             data=json.dumps({"identifier": handle, "password": password}).encode(),
@@ -52,15 +84,14 @@ jobs:
           )
           session = json.loads(urllib.request.urlopen(req).read())
 
-          # Build post
+          # --- POST INTERFACES & STRING BUILDING ---
           display_url = url.replace("https://", "")
-          hashtags = ["#blog", "#spacetech", "#aerospace", "#softwareengineering"]
           hashtag_str = " ".join(hashtags)
           text = f"Just made a new blog post: {display_url}\n\n{hashtag_str}"
 
           facets = []
 
-          # Link facet
+          # Exact URI link facet indices calculation
           url_start = len("Just made a new blog post: ".encode("utf-8"))
           url_end = url_start + len(display_url.encode("utf-8"))
           facets.append({
@@ -68,7 +99,7 @@ jobs:
             "features": [{"$type": "app.bsky.richtext.facet#link", "uri": url}]
           })
 
-          # Hashtag facets
+          # Accurate relative byte offsets mapping for dynamic extracted tag blocks
           search_start = len(f"Just made a new blog post: {display_url}\n\n".encode("utf-8"))
           for tag in hashtags:
             tag_start = search_start
@@ -77,13 +108,13 @@ jobs:
               "index": {"byteStart": tag_start, "byteEnd": tag_end},
               "features": [{"$type": "app.bsky.richtext.facet#tag", "tag": tag.lstrip("#")}]
             })
-            search_start = tag_end + 1
+            search_start = tag_end + 1 # Accounts for spacing gaps
 
           record = {
             "$type": "app.bsky.feed.post",
             "text": text,
             "facets": facets,
-            "createdAt": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+            "createdAt": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
           }
 
           req = urllib.request.Request(
