@@ -5,7 +5,7 @@ description: "Discussing the history of IRC and its use in 2026"
 tags: ["IRC", "Golang"]
 ---
 
-## On IRC
+# On IRC
 
 Being a member of the elusive *Gen Z* club, IRC is not a technology that I got exposure to until about 2 weeks ago, when
 a routine YouTube rabbit hole revealed this magnificent relic of days past. *Or is it?*
@@ -34,7 +34,7 @@ on a LAN due to the IRC daemon's functionality.
 
 ## What I did
 
-Today, I released the first version of [gchat](https://github.com/liampallett/gchat), an IRC client written in Golang.
+Today, I released the first version of [glirc](https://github.com/liampallett/glirc), an IRC client written in Golang.
 It is not something that will land me a job, nor is in a language that I will work with again, but the fact that I can
 still interface with IRC in 2026 is something that really interests me. So many times it could have been shut down or
 replaced ([Microsoft tried](https://en.wikipedia.org/wiki/Microsoft_Notification_Protocol)), and yet, it survives! It
