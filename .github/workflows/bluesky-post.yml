@@ -6,6 +6,10 @@ on:
     types: [ completed ]
     branches: [ main ]
 
+env:
+  # This makes the Node.js 20 deprecation warnings disappear completely
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   post:
     runs-on: ubuntu-latest
@@ -13,13 +17,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          # Fetch the last 10 commits to ensure history is present during a workflow_run trigger
+          fetch-depth: 10
 
       - name: Detect new blog post
         id: detect
         run: |
-          # Matches src/content/blog/any-slug/index.md or direct markdown configurations
-          NEW_FILE=$(git diff --name-only --diff-filter=A HEAD~1 HEAD | grep -E 'src/content/blog/.*\.md' | head -n 1)
+          # Ensure we are checking changes relative to the actual last commit
+          git fetch origin main
+          NEW_FILE=$(git diff --name-only --diff-filter=AM HEAD~1 HEAD | grep -E 'src/content/blog/.*\.md' | head -n 1)
+          
+          if [ -z "$NEW_FILE" ]; then
+            echo "No new blog file detected in this commit window."
+          else
+            echo "Detected file: $NEW_FILE"
+          fi
+          
           echo "file=$NEW_FILE" >> $GITHUB_OUTPUT
 
       - name: Extract Metadata Context
@@ -27,7 +40,6 @@ jobs:
         if: steps.detect.outputs.file != ''
         run: |
           FILE="${{ steps.detect.outputs.file }}"
-          # Drops parent directories and handles both single files and directory index structures
           SLUG=$(echo "$FILE" | sed 's|src/content/blog/||' | sed 's|/index.md||' | sed 's|\.md||')
           URL="https://liampallett.github.io/blog/$SLUG"
           echo "url=$URL" >> $GITHUB_OUTPUT
@@ -48,31 +60,26 @@ jobs:
           url = os.environ["POST_URL"]
           target_file = os.environ["TARGET_FILE"]
 
+          print(f"Processing file target: {target_file}")
+
           # --- FRONTMATTER TAG EXTRACTION ---
           extracted_tags = []
           try:
               with open(target_file, 'r', encoding='utf-8') as f:
                   content = f.read()
           
-              # Isolate the frontmatter YAML block between the first set of ---
               fm_match = re.search(r'^---\s*\n(.*?)\n---', content, re.DOTALL | re.MULTILINE)
               if fm_match:
                   fm_text = fm_match.group(1)
-                  # Search for the tags block inside the isolated frontmatter
-                  # Captures variations like tags: ["AI", "DeepMind"] or tags: ['AI']
                   tags_match = re.search(r'^tags:\s*\[(.*?)\]', fm_text, re.MULTILINE)
                   if tags_match:
-                      # Split by comma, drop quotation marks, strip leading/trailing whitespace
                       raw_tags = tags_match.group(1).split(',')
                       extracted_tags = [t.replace('"', '').replace("'", "").strip() for t in raw_tags if t.strip()]
+                      print(f"Successfully extracted tags: {extracted_tags}")
           except Exception as e:
               print(f"Warning: Failed to safely parse tags from frontmatter: {e}")
 
-          # Map tags to hashtags format (e.g., "DeepMind" -> "#DeepMind")
-          # Spaces are stripped to create legal hashtags (e.g., "Discussion Piece" -> "#DiscussionPiece")
           hashtags = [f"#{tag.replace(' ', '')}" for tag in extracted_tags]
-          
-          # Default fallback tags if the markdown metadata block is blank
           if not hashtags:
               hashtags = ["#blog", "#tech"]
 
@@ -99,7 +106,7 @@ jobs:
             "features": [{"$type": "app.bsky.richtext.facet#link", "uri": url}]
           })
 
-          # Accurate relative byte offsets mapping for dynamic extracted tag blocks
+          # Accurate relative byte offsets mapping
           search_start = len(f"Just made a new blog post: {display_url}\n\n".encode("utf-8"))
           for tag in hashtags:
             tag_start = search_start
@@ -108,7 +115,7 @@ jobs:
               "index": {"byteStart": tag_start, "byteEnd": tag_end},
               "features": [{"$type": "app.bsky.richtext.facet#tag", "tag": tag.lstrip("#")}]
             })
-            search_start = tag_end + 1 # Accounts for spacing gaps
+            search_start = tag_end + 1
 
           record = {
             "$type": "app.bsky.feed.post",
@@ -122,5 +129,5 @@ jobs:
             data=json.dumps({"repo": session["did"], "collection": "app.bsky.feed.post", "record": record}).encode(),
             headers={"Authorization": f"Bearer {session['accessJwt']}", "Content-Type": "application/json"}
           )
-          print(urllib.request.urlopen(req).read().decode())
+          print("API Response:", urllib.request.urlopen(req).read().decode())
           EOF
